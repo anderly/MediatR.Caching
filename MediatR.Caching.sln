@@ -5,7 +5,7 @@ VisualStudioVersion = 17.9.34701.34
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.Caching", "src\MediatR.Caching.csproj", "{E5E100FE-2CB1-4424-9795-5CB8BD4B2DB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample", "Sample\Sample.csproj", "{328F04BE-B490-41DA-9F7D-957BC9599988}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample", "sample\Sample.csproj", "{328F04BE-B490-41DA-9F7D-957BC9599988}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
