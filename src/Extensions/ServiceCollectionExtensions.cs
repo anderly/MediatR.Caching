@@ -9,10 +9,12 @@ public static class ServiceCollectionExtensions
         this IServiceCollection services)
     {
         services.AddSingleton<ICache, CacheService>();
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CacheInvalidationAttributeBehavior<,>));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CacheInvalidationBehavior<,>));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingBehavior<,>));
+		services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CacheInvalidationAttributeBehavior<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingAttributeBehavior<,>));
 
-        return services;
+		return services;
     }
 
     /// <summary>Adds all validators in specified assembly</summary>

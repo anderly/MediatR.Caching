@@ -32,8 +32,18 @@ public class CachingAttributeBehavior<TRequest, TResponse> : IPipelineBehavior<T
         {
             return await next();
         }
-        var props = typeof(TRequest).GetProperties().Where(p => p.PropertyType.IsSimple()).Select(pi => $"{pi.Name}:{pi.GetValue(request)}");
-        var cacheKey = $"{typeof(TRequest).FullName}{{{props.ToCsv()}}}";
+
+        string cacheKey;
+        if (request is ICacheKey<TRequest, TResponse> req)
+        {
+	        cacheKey = req.GetCacheKey(request);
+	        cacheKey = $"{typeof(TRequest).FullName}{{{cacheKey}}}";
+		}
+        else
+        {
+	        cacheKey = GetDefaultCacheKey(request);
+        }
+
         var cachedResponse = await _cache.GetAsync<TResponse>(cacheKey, cancellationToken);
         if (cachedResponse != null)
         {
@@ -46,5 +56,14 @@ public class CachingAttributeBehavior<TRequest, TResponse> : IPipelineBehavior<T
 
         await _cache.SetAsync(cacheKey, response, TimeSpan.FromMinutes(cacheAttribute.SlidingExpiration), null, TimeSpan.FromMinutes(cacheAttribute.AbsoluteExpiration), cancellationToken);
         return response;
+    }
+
+    static string GetDefaultCacheKey<TRequest>(TRequest request)
+    {
+	    var props = typeof(TRequest).GetProperties().Where(p => p.PropertyType.IsSimple())
+		    .Select(pi => $"{pi.Name}:{pi.GetValue(request)}");
+	    var cacheKey = $"{typeof(TRequest).FullName}{{{props.ToCsv()}}}";
+
+	    return cacheKey;
     }
 }

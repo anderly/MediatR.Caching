@@ -22,7 +22,8 @@ public interface ICacheInvalidationPolicy<TRequest>
     dynamic GetCachePolicy();
 }
 
-public abstract class AbstractCacheInvalidationPolicy<TRequest, TCachedRequest, TCachedResponse> : ICacheInvalidationPolicy<TRequest>
+public abstract class AbstractCacheInvalidationPolicy<TRequest, TCachedRequest, TCachedResponse>
+	: ICacheInvalidationPolicy<TRequest> where TCachedRequest : IRequest<TCachedResponse>
 {
     private readonly IEnumerable<ICachePolicy<TCachedRequest, TCachedResponse>> _cachePolicies;
 

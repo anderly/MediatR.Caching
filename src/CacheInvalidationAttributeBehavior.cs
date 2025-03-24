@@ -21,7 +21,7 @@ namespace MediatR.Caching;
 /// <typeparam name="TRequest">The type of the request that needs to invalidate other cached request responses.</typeparam>
 /// <typeparam name="TResponse">The response of the request that causes invalidation of other cached request responses.</typeparam>
 public class CacheInvalidationAttributeBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : IRequest<TResponse>
+    where TRequest : IRequest
 {
     private readonly IMediator _mediator;
     private readonly ICache _cache;
@@ -57,8 +57,7 @@ public class CacheInvalidationAttributeBehavior<TRequest, TResponse> : IPipeline
         foreach (var invalidateCacheAttribute in invalidateCacheAttributes)
         {
             var targetType = invalidateCacheAttribute.DeclaringType;
-            var props = request.GetType().GetProperties().Where(p => p.PropertyType.IsSimple() && targetType.GetProperties().Where(p => p.PropertyType.IsSimple()).Select(tp => tp.Name).Contains(p.Name)).Select(pi => $"{pi.Name}:{pi.GetValue(request, null)}");
-            var cacheKey = $"{targetType.FullName}{{{props.ToCsv()}}}";
+            var cacheKey = GetCacheKey(request, targetType);
 
             var cachedResponse = await _cache.GetAsync<TResponse>(cacheKey, cancellationToken);
             if (cachedResponse == null)
@@ -66,7 +65,6 @@ public class CacheInvalidationAttributeBehavior<TRequest, TResponse> : IPipeline
                 continue;
             }
 
-            //await _cache.RemoveAsync(cacheKey, cancellationToken);
             cacheInvalidationTasks.Add(_cache.RemoveAsync(cacheKey, cancellationToken));
 
             var cacheAttribute = (CacheAttribute)targetType.GetCustomAttributes(typeof(CacheAttribute), false).FirstOrDefault();
@@ -96,9 +94,8 @@ public class CacheInvalidationAttributeBehavior<TRequest, TResponse> : IPipeline
 
             var generic = method?.MakeGenericMethod(firstGenericArgument);
 
-            var task = (Task)generic?.Invoke(_mediator, new[] { query, cancellationToken });
+            var task = (Task)generic?.Invoke(_mediator, [query, cancellationToken]);
 
-            //if (task != null) await task;
             if (task != null)
             {
                 cacheAutoReloadTasks.Add(task);
@@ -118,4 +115,10 @@ public class CacheInvalidationAttributeBehavior<TRequest, TResponse> : IPipeline
         return result;
     }
 
+    private static string GetCacheKey(TRequest request, Type targetType)
+    {
+	    var props = request.GetType().GetProperties().Where(p => p.PropertyType.IsSimple() && targetType.GetProperties().Where(p => p.PropertyType.IsSimple()).Select(tp => tp.Name).Contains(p.Name)).Select(pi => $"{pi.Name}:{pi.GetValue(request, null)}");
+	    var cacheKey = $"{targetType.FullName}{{{props.ToCsv()}}}";
+	    return cacheKey;
+    }
 }

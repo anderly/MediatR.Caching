@@ -87,7 +87,7 @@ public class CacheInvalidationBehavior<TRequest, TResponse> : IPipelineBehavior<
 
             var generic = method?.MakeGenericMethod(firstGenericArgument);
 
-            var task = (Task)generic?.Invoke(_mediator, new[] { query, cancellationToken });
+            var task = (Task)generic?.Invoke(_mediator, [query, cancellationToken]);
 
             //if (task != null) await task;
             if (task != null)

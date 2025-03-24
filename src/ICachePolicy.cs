@@ -4,7 +4,8 @@ using MediatR.Caching.Extensions;
 
 namespace MediatR.Caching;
 
-public interface ICachePolicy<TRequest, TResponse>
+public interface ICachePolicy<in TRequest, TResponse>
+	: ICacheKey<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
     DateTime? AbsoluteExpiration => null;
     TimeSpan? AbsoluteExpirationRelativeToNow => TimeSpan.FromMinutes(5);
@@ -13,14 +14,4 @@ public interface ICachePolicy<TRequest, TResponse>
     bool AutoReload => false;
 
     //string GetCacheKeyPrefix() => typeof(TResponse).FullName;
-
-    string GetCacheKey(TRequest request)
-    {
-        var r = new {request};
-        var props = r.request.GetType().GetProperties().Where(p => p.PropertyType.IsSimple()).Select(pi => $"{pi.Name}:{pi.GetValue(r.request, null)}");
-        return $"{typeof(TRequest).FullName}{{{props.ToCsv()}}}";
-        //return $"{{{props.ToCsv()}}}";
-    }
-
-
 }
