@@ -1,8 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
-    <LangVersion>latest</LangVersion>
+    <Authors>Adam Anderly</Authors>
+    <Description>Third-party caching library for MediatR.</Description>
+    <Copyright>Copyright Adam Anderly</Copyright>
+	<TargetFramework>netstandard2.1</TargetFramework>
+    <PackageTags>mediator;request;response;queries;commands;caching</PackageTags>
+	<MinVerTagPrefix>v</MinVerTagPrefix>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,8 +17,15 @@
     <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="9.0.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.3" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.3" />
+    <PackageReference Include="MinVer" Version="6.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Scrutor" Version="6.0.1" />
     <PackageReference Include="System.Text.Json" Version="9.0.3" />
   </ItemGroup>
 
+	<ItemGroup>
+		<None Include="..\README.md" Pack="true" PackagePath="\" />
+	</ItemGroup>
 </Project>
