@@ -38,13 +38,13 @@ public class SliceFixture : IAsyncLifetime
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            //builder.ConfigureAppConfiguration((_, configBuilder) =>
-            //{
-            //    configBuilder.AddInMemoryCollection(new Dictionary<string, string>
-            //    {
-            //        {"ConnectionStrings:DefaultConnection", _connectionString}
-            //    });
-            //});
+            builder.ConfigureAppConfiguration((_, configBuilder) =>
+            {
+                configBuilder.AddInMemoryCollection(new Dictionary<string, string>
+                {
+                    {"ConnectionStrings:DefaultConnection", _connectionString}
+                });
+            });
         }
 
         private readonly string _connectionString = "Server=(localdb)\\mssqllocaldb;Database=ContosoUniversityDotNetCore-Pages-Test;Trusted_Connection=True;MultipleActiveResultSets=true";
@@ -218,7 +218,7 @@ public class SliceFixture : IAsyncLifetime
 
     public Task DisposeAsync()
     {
-        _factory?.Dispose();
-        return Task.CompletedTask;
+		_factory?.Dispose();
+		return Task.CompletedTask;
     }
 }
