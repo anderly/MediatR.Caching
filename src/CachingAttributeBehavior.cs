@@ -58,7 +58,7 @@ public class CachingAttributeBehavior<TRequest, TResponse> : IPipelineBehavior<T
         return response;
     }
 
-    static string GetDefaultCacheKey<TRequest>(TRequest request)
+    static string GetDefaultCacheKey(TRequest request)
     {
 	    var props = typeof(TRequest).GetProperties().Where(p => p.PropertyType.IsSimple())
 		    .Select(pi => $"{pi.Name}:{pi.GetValue(request)}");
