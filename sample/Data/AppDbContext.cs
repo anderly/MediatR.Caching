@@ -12,8 +12,8 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.HasDefaultSchema("dbo");
+        //modelBuilder.HasDefaultSchema("dbo");
 
-        modelBuilder.Entity<Todo>().ToTable("Todo");
+        //modelBuilder.Entity<Todo>().ToTable("Todo");
     }
 }

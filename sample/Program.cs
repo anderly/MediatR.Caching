@@ -1,7 +1,5 @@
 using MediatR.Caching.Extensions;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Sample.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddDistributedMemoryCache();
-builder.Services.AddDbContext<AppDbContext>(o => o.UseSqlServer("data source=localhost;initial catalog=Kwik;integrated security=True;MultipleActiveResultSets=True;App=MediatR.Caching;connect timeout=2;TrustServerCertificate=true;"));
+//builder.Services.AddDbContext<AppDbContext>(o => o.UseSqlServer("data source=localhost;initial catalog=ToDo;integrated security=True;MultipleActiveResultSets=True;App=MediatR.Caching;connect timeout=2;TrustServerCertificate=true;"));
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+	options.UseInMemoryDatabase(databaseName: "ToDoDatabase");
+});
 builder.Services.AddMediatR(o =>
 {
     o.RegisterServicesFromAssemblyContaining(typeof(Program));
@@ -18,6 +20,14 @@ builder.Services.AddMediatR(o =>
 .AddCachePoliciesFromAssembly(typeof(Program).Assembly);
 
 var app = builder.Build();
+
+// Run seeder
+using (var scope = app.Services.CreateScope())
+{
+	var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+	var seeder = new TodoSeeder(context);
+	seeder.SeedData();
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

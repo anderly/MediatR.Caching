@@ -13,13 +13,18 @@ namespace Sample.Pages
 
         public async Task OnGetAsync() => await _mediator.Send(new Query());
 
-        [InvalidateCache(typeof(IndexModel.Query))]
-        public record Query : IRequest<Result>
+        [InvalidateCache(typeof(CachingWithAttributesModel.Query))]
+        //[InvalidateCache(typeof(CachingWithPoliciesModel.Query))]
+		public record Query : IRequest<Result>
         {
-            public bool? CacheBust { get; set; } = false;
+			public string? Search { get; set; }
+			public bool? CacheBust { get; set; } = false;
         }
 
-        public record Result
+        public class CacheInvalidationPolicy(IEnumerable<ICachePolicy<CachingWithPoliciesModel.Query, CachingWithPoliciesModel.Result>> cachePolicies)
+	        : AbstractCacheInvalidationPolicy<Query, CachingWithPoliciesModel.Query, CachingWithPoliciesModel.Result>(cachePolicies);
+
+		public record Result
         {
             
         }

@@ -8,20 +8,25 @@ using DateTime = System.DateTime;
 
 namespace Sample.Pages
 {
-    public class IndexModel : PageModel
+    public class CachingWithAttributesModel : PageModel
     {
         private readonly IMediator _mediator;
 
-        public IndexModel(IMediator mediator) => _mediator = mediator;
+        public CachingWithAttributesModel(IMediator mediator) => _mediator = mediator;
 
         public Result Data { get; private set; }
 
         public async Task OnGetAsync() => Data = await _mediator.Send(new Query());
 
-        [Cache(SlidingExpiration = 1, AbsoluteExpiration = 5, AutoReload = true)]
-        public record Query : IRequest<Result>
+        [Cache(SlidingExpiration = 1, AbsoluteExpiration = 5)]
+        public record Query : IRequest<Result>//, ICacheKey<Query, Result>
         {
-            [FromQuery] public bool? CacheBust { get; set; } = false;
+	        [FromQuery] public string? Search { get; set; }
+			[FromQuery] public bool? CacheBust { get; set; } = false;
+            public string GetCacheKey(Query request)
+            {
+	            return "Query.CustomCacheKey";
+            }
         }
 
         public record Result
@@ -36,11 +41,6 @@ namespace Sample.Pages
                 public DateTime RetrievedAt { get; init; }
             }
         }
-
-        //public class MappingProfile : Profile
-        //{
-        //    public MappingProfile() => CreateProjection<Course, Result.Course>();
-        //}
 
         public class QueryHandler : IRequestHandler<Query, Result>
         {
