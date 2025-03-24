@@ -100,6 +100,30 @@ services.AddMediatR(typeof(Startup));
 services.AddMediatRCaching();
 ```
 
+Ensure you also have an IDistributedCache registered or a default MemoryCache will be registered.
+
+```csharp
+
+// MemoryCache (this is the default that will get registered if none provided)
+services.AddDistributedMemoryCache();
+
+// Sql Server Cache
+services.AddDistributedSqlServerCache(options =>
+{
+    options.ConnectionString =
+        Configuration.GetConnectionString("Cache");
+    options.SchemaName = "dbo";
+    options.TableName = "Cache";
+});
+
+// Redis Cache
+services.AddStackExchangeRedisCache(options =>
+{
+	options.Configuration = "localhost";
+	options.InstanceName = "SampleInstance";
+});
+```
+
 ## License
 
 This project is licensed under the MIT License.
