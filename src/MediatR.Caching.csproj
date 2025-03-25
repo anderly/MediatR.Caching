@@ -6,7 +6,7 @@
     <Copyright>Copyright Adam Anderly</Copyright>
 	<TargetFramework>netstandard2.1</TargetFramework>
     <PackageTags>mediator;request;response;queries;commands;caching</PackageTags>
-	<MinVerTagPrefix>v</MinVerTagPrefix>
+	  <!-- <MinVerTagPrefix>v</MinVerTagPrefix> -->
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
   </PropertyGroup>
