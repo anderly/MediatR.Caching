@@ -1,4 +1,12 @@
-﻿/****** Object:  Table [dbo].[Course]    Script Date: 11/15/2019 2:44:31 PM ******/
+﻿CREATE DATABASE [ContosoUniversity]
+GO
+ALTER DATABASE [ContosoUniversity] SET COMPATIBILITY_LEVEL = 150
+GO
+
+USE [ContosoUniversity]
+GO
+
+/****** Object:  Table [dbo].[Course]    Script Date: 11/15/2019 2:44:31 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -8,7 +16,7 @@ CREATE TABLE [dbo].[Course](
 	[Title] [nvarchar](50) NULL,
 	[Credits] [int] NOT NULL,
 	[DepartmentID] [int] NOT NULL,
- CONSTRAINT [PK_Course] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_Course] PRIMARY KEY CLUSTERED
 (
 	[CourseID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -22,7 +30,7 @@ GO
 CREATE TABLE [dbo].[CourseAssignment](
 	[InstructorID] [int] NOT NULL,
 	[CourseID] [int] NOT NULL,
- CONSTRAINT [PK_CourseAssignment] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_CourseAssignment] PRIMARY KEY CLUSTERED
 (
 	[CourseID] ASC,
 	[InstructorID] ASC
@@ -41,7 +49,7 @@ CREATE TABLE [dbo].[Department](
 	[StartDate] [datetime2](7) NOT NULL,
 	[InstructorID] [int] NULL,
 	[RowVersion] [timestamp] NULL,
- CONSTRAINT [PK_Department] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_Department] PRIMARY KEY CLUSTERED
 (
 	[DepartmentID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -57,7 +65,7 @@ CREATE TABLE [dbo].[Enrollment](
 	[CourseID] [int] NOT NULL,
 	[StudentID] [int] NOT NULL,
 	[Grade] [int] NULL,
- CONSTRAINT [PK_Enrollment] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_Enrollment] PRIMARY KEY CLUSTERED
 (
 	[EnrollmentID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -73,7 +81,7 @@ CREATE TABLE [dbo].[Instructor](
 	[LastName] [nvarchar](50) NOT NULL,
 	[FirstName] [nvarchar](50) NOT NULL,
 	[HireDate] [datetime2](7) NOT NULL,
- CONSTRAINT [PK_Instructor] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_Instructor] PRIMARY KEY CLUSTERED
 (
 	[ID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -87,7 +95,7 @@ GO
 CREATE TABLE [dbo].[OfficeAssignment](
 	[InstructorID] [int] NOT NULL,
 	[Location] [nvarchar](50) NULL,
- CONSTRAINT [PK_OfficeAssignment] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_OfficeAssignment] PRIMARY KEY CLUSTERED
 (
 	[InstructorID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -103,7 +111,7 @@ CREATE TABLE [dbo].[Student](
 	[LastName] [nvarchar](50) NOT NULL,
 	[FirstName] [nvarchar](50) NOT NULL,
 	[EnrollmentDate] [datetime2](7) NOT NULL,
- CONSTRAINT [PK_Student] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_Student] PRIMARY KEY CLUSTERED
 (
 	[ID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]

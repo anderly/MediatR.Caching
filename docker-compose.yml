@@ -1,0 +1,31 @@
+version: "3.9"
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: Y
+      MSSQL_PID: Developer
+      MSSQL_SA_PASSWORD: P@ssw0rd0995
+    ports:
+      - 1433:1433
+    networks:
+      - db
+    volumes:
+      - ./sample/ContosoUniversity/App_Data/runAfterCreateDatabase/:/var/opt/mssql/scripts
+      - ./data/mssql/backups:/var/opt/mssql/backups
+      - ./data/mssql/data:/var/opt/mssql/data
+      - ./data/mssql/log:/var/opt/mssql/log
+  migrate:
+    image: arigaio/atlas:latest
+    command: >
+      migrate apply
+      --url mssql://root:pass@mssql:1433/test
+    networks:
+      - db
+    depends_on:
+      mssql:
+        condition: service_healthy
+    volumes:
+      - ./migrations/:/migrations
+networks:
+  db:

@@ -33,7 +33,7 @@ public class SliceFixture : IAsyncLifetime
         _scopeFactory = _factory.Services.GetRequiredService<IServiceScopeFactory>();
     }
 
-    class ContosoTestApplicationFactory 
+    class ContosoTestApplicationFactory
         : WebApplicationFactory<Program>
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -47,7 +47,7 @@ public class SliceFixture : IAsyncLifetime
             });
         }
 
-        private readonly string _connectionString = "Server=(localdb)\\mssqllocaldb;Database=ContosoUniversityDotNetCore-Pages-Test;Trusted_Connection=True;MultipleActiveResultSets=true";
+        private readonly string _connectionString = "Server=localhost;Database=ContosoUniversity;User Id=sa;Password=P@ssw0rd0995;MultipleActiveResultSets=true;Trust Server Certifificate=True;";
     }
 
     public async Task ExecuteScopeAsync(Func<IServiceProvider, Task> action)
@@ -65,7 +65,7 @@ public class SliceFixture : IAsyncLifetime
         }
         catch (Exception)
         {
-            dbContext.RollbackTransaction(); 
+            dbContext.RollbackTransaction();
             throw;
         }
     }
@@ -92,22 +92,22 @@ public class SliceFixture : IAsyncLifetime
         }
     }
 
-    public Task ExecuteDbContextAsync(Func<SchoolContext, Task> action) 
+    public Task ExecuteDbContextAsync(Func<SchoolContext, Task> action)
         => ExecuteScopeAsync(sp => action(sp.GetService<SchoolContext>()));
 
-    public Task ExecuteDbContextAsync(Func<SchoolContext, ValueTask> action) 
+    public Task ExecuteDbContextAsync(Func<SchoolContext, ValueTask> action)
         => ExecuteScopeAsync(sp => action(sp.GetService<SchoolContext>()).AsTask());
 
-    public Task ExecuteDbContextAsync(Func<SchoolContext, IMediator, Task> action) 
+    public Task ExecuteDbContextAsync(Func<SchoolContext, IMediator, Task> action)
         => ExecuteScopeAsync(sp => action(sp.GetService<SchoolContext>(), sp.GetService<IMediator>()));
 
-    public Task<T> ExecuteDbContextAsync<T>(Func<SchoolContext, Task<T>> action) 
+    public Task<T> ExecuteDbContextAsync<T>(Func<SchoolContext, Task<T>> action)
         => ExecuteScopeAsync(sp => action(sp.GetService<SchoolContext>()));
 
-    public Task<T> ExecuteDbContextAsync<T>(Func<SchoolContext, ValueTask<T>> action) 
+    public Task<T> ExecuteDbContextAsync<T>(Func<SchoolContext, ValueTask<T>> action)
         => ExecuteScopeAsync(sp => action(sp.GetService<SchoolContext>()).AsTask());
 
-    public Task<T> ExecuteDbContextAsync<T>(Func<SchoolContext, IMediator, Task<T>> action) 
+    public Task<T> ExecuteDbContextAsync<T>(Func<SchoolContext, IMediator, Task<T>> action)
         => ExecuteScopeAsync(sp => action(sp.GetService<SchoolContext>(), sp.GetService<IMediator>()));
 
     public Task InsertAsync<T>(params T[] entities) where T : class
@@ -132,7 +132,7 @@ public class SliceFixture : IAsyncLifetime
         });
     }
 
-    public Task InsertAsync<TEntity, TEntity2>(TEntity entity, TEntity2 entity2) 
+    public Task InsertAsync<TEntity, TEntity2>(TEntity entity, TEntity2 entity2)
         where TEntity : class
         where TEntity2 : class
     {
@@ -145,7 +145,7 @@ public class SliceFixture : IAsyncLifetime
         });
     }
 
-    public Task InsertAsync<TEntity, TEntity2, TEntity3>(TEntity entity, TEntity2 entity2, TEntity3 entity3) 
+    public Task InsertAsync<TEntity, TEntity2, TEntity3>(TEntity entity, TEntity2 entity2, TEntity3 entity3)
         where TEntity : class
         where TEntity2 : class
         where TEntity3 : class
@@ -160,7 +160,7 @@ public class SliceFixture : IAsyncLifetime
         });
     }
 
-    public Task InsertAsync<TEntity, TEntity2, TEntity3, TEntity4>(TEntity entity, TEntity2 entity2, TEntity3 entity3, TEntity4 entity4) 
+    public Task InsertAsync<TEntity, TEntity2, TEntity3, TEntity4>(TEntity entity, TEntity2 entity2, TEntity3 entity3, TEntity4 entity4)
         where TEntity : class
         where TEntity2 : class
         where TEntity3 : class
@@ -210,7 +210,7 @@ public class SliceFixture : IAsyncLifetime
     public async Task InitializeAsync()
     {
         var connectionString = _configuration.GetConnectionString("DefaultConnection");
-        
+
         _respawner = await Respawner.CreateAsync(connectionString);
 
         await _respawner.ResetAsync(connectionString);
