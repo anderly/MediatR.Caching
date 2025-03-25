@@ -19,7 +19,7 @@ namespace MediatR.Caching.Extensions
 		public static async Task SetAsync<T>(this IDistributedCache cache, string key, T value, DistributedCacheEntryOptions options, CancellationToken token = default)
 		{
 			byte[] bytes;
-			await using (var memoryStream = new MemoryStream())
+			using (var memoryStream = new MemoryStream())
 			{
 				await JsonSerializer.SerializeAsync<T>(memoryStream, value, options: null, token);
 				bytes = memoryStream.ToArray();
@@ -35,7 +35,7 @@ namespace MediatR.Caching.Extensions
 
 			if (val == null) return result;
 
-			await using (var memoryStream = new MemoryStream(val))
+			using (var memoryStream = new MemoryStream(val))
 			{
 				result = await JsonSerializer.DeserializeAsync<T>(memoryStream, options: null, token);
 			}
