@@ -6,10 +6,14 @@
     <Copyright>Copyright Adam Anderly</Copyright>
 	<TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
 	<!--<Nullable>enable</Nullable>-->
-    <PackageTags>mediator;request;response;queries;commands;caching</PackageTags>
+    <PackageTags>mediator;request;response;queries;commands;caching;distributedcache;memorycache</PackageTags>
 	  <!-- <MinVerTagPrefix>v</MinVerTagPrefix> -->
+	<PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
+	<IncludeSymbols>true</IncludeSymbols>
+	<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	<EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
 
   <ItemGroup>
