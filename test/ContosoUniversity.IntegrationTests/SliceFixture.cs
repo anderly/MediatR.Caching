@@ -47,7 +47,7 @@ public class SliceFixture : IAsyncLifetime
             });
         }
 
-        private readonly string _connectionString = "Server=localhost\\MSSQLLocalDB;Database=ContosoUniversity;User Id=sa;Password=P@ssw0rd0995;MultipleActiveResultSets=true;";
+        private readonly string _connectionString = "Server=localhost;Database=ContosoUniversity;User Id=sa;Password=P@ssw0rd0995;MultipleActiveResultSets=true;TrustServerCertificate=True;";
     }
 
     public async Task ExecuteScopeAsync(Func<IServiceProvider, Task> action)
