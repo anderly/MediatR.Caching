@@ -9,23 +9,23 @@ on:
       - main
 jobs:
   build:
-    services:
-      sqlserver:
-        image: mcr.microsoft.com/mssql/server:2022-latest
-        env:
-          ACCEPT_EULA: Y
-          MSSQL_PID: Developer
-          MSSQL_SA_PASSWORD: ${{ vars.MSSQL_SA_PASSWORD }}
-        ports:
-          - 1433:1433
-        # options: >-
-        #   --health-cmd "/opt/mssql-tools/bin/sqlcmd -U sa -P \"${MSSQL_SA_PASSWORD}\" -Q \"SELECT 1\""
-        #   --health-interval 10s
-        #   --health-timeout 5s
-        #   --health-retries 5
-        volumes:
-          - /sample/ContosoUniversity/App_Data/runAfterCreateDatabase/:/var/opt/mssql/scripts
-    runs-on: ubuntu-latest
+    #services:
+      # sqlserver:
+      #   image: mcr.microsoft.com/mssql/server:2022-latest
+      #   env:
+      #     ACCEPT_EULA: Y
+      #     MSSQL_PID: Developer
+      #     MSSQL_SA_PASSWORD: ${{ vars.MSSQL_SA_PASSWORD }}
+      #   ports:
+      #     - 1433:1433
+      #   # options: >-
+      #   #   --health-cmd "/opt/mssql-tools/bin/sqlcmd -U sa -P \"${MSSQL_SA_PASSWORD}\" -Q \"SELECT 1\""
+      #   #   --health-interval 10s
+      #   #   --health-timeout 5s
+      #   #   --health-retries 5
+      #   volumes:
+      #     - /sample/ContosoUniversity/App_Data/runAfterCreateDatabase/:/var/opt/mssql/scripts
+    runs-on: windows-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -34,7 +34,7 @@ jobs:
     - name: Run the action
       uses: potatoqualitee/mssqlsuite@v1.8
       with:
-        install: sqlclient
+        install: sqlengine, sqlclient, localdb
         sa-password: ${{ vars.MSSQL_SA_PASSWORD }}
     - name: Provision the database
       run: sqlcmd -S localhost -U sa -P ${{ vars.MSSQL_SA_PASSWORD }} -i /sample/ContosoUniversity/App_Data/runAfterCreateDatabase/0001_InitialSchema.sql -C
