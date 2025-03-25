@@ -1,5 +1,10 @@
 # MediatR.Caching
 
+[![CI](https://github.com/anderly/MediatR.Caching/actions/workflows/ci.yml/badge.svg)](https://github.com/anderly/MediatR.Caching/actions/workflows/ci.yml)
+[![NuGet](https://img.shields.io/nuget/dt/mediatr.caching.svg)](https://www.nuget.org/packages/mediatr.caching)
+[![NuGet](https://img.shields.io/nuget/vpre/mediatr.caching.svg)](https://www.nuget.org/packages/mediatr.caching)
+[![MyGet (dev)](https://img.shields.io/myget/mediatr-caching-ci/v/MediatR.Caching.svg)](https://myget.org/gallery/mediatr-caching-ci)
+
 MediatR.Caching is a DotNetCore library that provides support for caching [MediatR](https://github.com/jbogard/MediatR) `IRequest<T>` responses. It also includes support for invalidating cache results using MediatR commands.
 
 ## Features
@@ -127,4 +132,3 @@ services.AddStackExchangeRedisCache(options =>
 ## License
 
 This project is licensed under the MIT License.
-
