@@ -31,15 +31,15 @@ jobs:
       uses: actions/checkout@v2
       with:
         fetch-depth: 0
-    - name: Run the action
+    - name: Install SQL Server
       uses: potatoqualitee/mssqlsuite@v1.8
       with:
         install: sqlengine, sqlclient, localdb
         sa-password: ${{ vars.MSSQL_SA_PASSWORD }}
     - name: Provision the database
-      run: sqlcmd -S localhost -U sa -P ${{ vars.MSSQL_SA_PASSWORD }} -Q "CREATE DATABASE ContosoUniversity" -C
+      run: sqlcmd -S localhost -U sa -P ${{ vars.MSSQL_SA_PASSWORD }} -Q "CREATE DATABASE [ContosoUniversity]" -C
     - name: Initialize schema
-      run: sqlcmd -S localhost -U sa -P ${{ vars.MSSQL_SA_PASSWORD }} -d "ContosoUniversity" -i "/sample/ContosoUniversity/App_Data/runAfterCreateDatabase/0001_InitialSchema.sql" -C
+      run: sqlcmd -S localhost -U sa -P ${{ vars.MSSQL_SA_PASSWORD }} -d "ContosoUniversity" -i "${{ github.workspace }}/sample/ContosoUniversity/App_Data/runAfterCreateDatabase/0001_InitialSchema.sql" -C
     - name: Setup dotnet 6.0
       uses: actions/setup-dotnet@v4
       with:
