@@ -34,7 +34,7 @@ jobs:
     - name: Run the action
       uses: potatoqualitee/mssqlsuite@v1.8
       with:
-        install: sqlengine, sqlclient
+        install: sqlclient
         sa-password: ${{ vars.MSSQL_SA_PASSWORD }}
     - name: Provision the database
       run: sqlcmd -S localhost -U sa -P ${{ vars.MSSQL_SA_PASSWORD }} -i /var/opt/mssql/scripts/0001_InitialSchema.sql -C
