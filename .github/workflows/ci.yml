@@ -53,7 +53,7 @@ jobs:
       shell: pwsh
     - name: Push to MyGet
       env:
-        NUGET_URL: https://www.myget.org/F/mediatr-ci/api/v3/index.json
+        NUGET_URL: https://www.myget.org/F/mediatr-caching-ci/api/v3/index.json
         NUGET_API_KEY: ${{ secrets.MYGET_MEDIATR_CACHING_CI_API_KEY }}
       run: ./Push.ps1
       shell: pwsh
