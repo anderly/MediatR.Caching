@@ -34,7 +34,7 @@ jobs:
     - name: Install SQL Server
       uses: potatoqualitee/mssqlsuite@v1.8
       with:
-        install: sqlengine, sqlclient//, localdb
+        install: sqlengine, sqlclient #, localdb
         sa-password: ${{ vars.MSSQL_SA_PASSWORD }}
     - name: Provision the database
       run: sqlcmd -S localhost -U sa -P ${{ vars.MSSQL_SA_PASSWORD }} -Q "CREATE DATABASE [ContosoUniversity]" -C
