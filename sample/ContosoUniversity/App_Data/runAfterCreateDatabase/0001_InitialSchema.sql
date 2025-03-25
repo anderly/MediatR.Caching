@@ -1,7 +1,7 @@
-﻿CREATE DATABASE [ContosoUniversity]
-GO
-ALTER DATABASE [ContosoUniversity] SET COMPATIBILITY_LEVEL = 150
-GO
+﻿-- CREATE DATABASE [ContosoUniversity]
+-- GO
+-- ALTER DATABASE [ContosoUniversity] SET COMPATIBILITY_LEVEL = 150
+-- GO
 
 USE [ContosoUniversity]
 GO
